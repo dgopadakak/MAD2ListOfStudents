@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MAD2ListOfStudents</string>
+    <string name="prev">Назад</string>
+    <string name="next">Вперед</string>
+    <string name="empty">Нет студентов</string>
+    <string name="add">Добавить</string>
+    <string name="edit">Изменить</string>
+    <string name="del">Удалить</string>
+    <string name="firstName">Имя</string>
+    <string name="secondName">Фамилия</string>
+    <string name="middleName">Отчество</string>
+    <string name="birthDay">Дата рождения</string>
+    <string name="faculty">Факультет</string>
+    <string name="editTextFirstNameHint">Введите имя</string>
+    <string name="editTextSecondNameHint">Введите фамилию</string>
+    <string name="editTextMiddleNameHint">Введите отчество</string>
+    <string name="editTextBirthDayHint">Введите дату рождения</string>
+    <string name="editTextFacultyHint">Введите факультет</string>
+    <string name="confirmChangesButton">Подтвердить</string>
+</resources>
