@@ -51,8 +51,10 @@
         android:id="@+id/textViewCurS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:maxWidth="120dp"
+        android:singleLine="false"
         android:text="@string/empty"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEdit"
         app:layout_constraintEnd_toStartOf="@+id/buttonNextS"
         app:layout_constraintStart_toEndOf="@+id/buttonPrevS"
         app:layout_constraintTop_toBottomOf="@+id/textViewCurF" />
@@ -71,8 +73,8 @@
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
         android:text="@string/add"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonPrevS" />
@@ -81,8 +83,8 @@
         android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
         android:text="@string/edit"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonDel"
         app:layout_constraintStart_toEndOf="@+id/buttonAdd"
         app:layout_constraintTop_toBottomOf="@+id/buttonPrevS" />
@@ -91,8 +93,8 @@
         android:id="@+id/buttonDel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
         android:text="@string/del"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonEdit"
         app:layout_constraintTop_toBottomOf="@+id/buttonPrevS" />

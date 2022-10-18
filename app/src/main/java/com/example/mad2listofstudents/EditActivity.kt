@@ -29,6 +29,15 @@ class EditActivity : AppCompatActivity()
         editTextFaculty = findViewById(R.id.editText5)
 
         findViewById<Button>(R.id.buttonConfirmChanges).setOnClickListener { confirmChanges(action, index) }
+
+        if (action == 2)
+        {
+            editTextFirstName.setText(intent.getSerializableExtra("FIRST") as String)
+            editTextSecondName.setText(intent.getSerializableExtra("SECOND") as String)
+            editTextMiddleName.setText(intent.getSerializableExtra("MIDDLE") as String)
+            editTextBirthDay.setText(intent.getSerializableExtra("BIRTH") as String)
+            editTextFaculty.setText(intent.getSerializableExtra("FACULTY") as String)
+        }
     }
 
     private fun confirmChanges(action: Int, index: Int)
@@ -40,11 +49,11 @@ class EditActivity : AppCompatActivity()
             val intent = Intent(this@EditActivity, MainActivity::class.java)
             intent.putExtra("ACTION", action)
             intent.putExtra("INDEX", index)
-            intent.putExtra("FIRST", editTextFirstName.text.toString())
-            intent.putExtra("SECOND", editTextSecondName.text.toString())
-            intent.putExtra("MIDDLE", editTextMiddleName.text.toString())
-            intent.putExtra("BIRTH", editTextBirthDay.text.toString())
-            intent.putExtra("FACULTY", editTextFaculty.text.toString())
+            intent.putExtra("FIRST", editTextFirstName.text.toString().trim())
+            intent.putExtra("SECOND", editTextSecondName.text.toString().trim())
+            intent.putExtra("MIDDLE", editTextMiddleName.text.toString().trim())
+            intent.putExtra("BIRTH", editTextBirthDay.text.toString().trim())
+            intent.putExtra("FACULTY", editTextFaculty.text.toString().trim())
             setResult(RESULT_OK, intent)
             finish()
         }

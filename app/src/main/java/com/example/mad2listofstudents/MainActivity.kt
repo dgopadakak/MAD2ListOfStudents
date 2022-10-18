@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity()
     private var indexOfStudents: Int = -1
     private var indexOfFaculty: Int = -1
 
+    private lateinit var toast: Toast
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -37,28 +39,43 @@ class MainActivity : AppCompatActivity()
         findViewById<Button>(R.id.buttonDel).setOnClickListener { editListOfStudents(3) }
 
         textViewCurF.text = "Все факультеты"
+
+        toast = Toast.makeText(
+            applicationContext,
+            "Добавьте студентов!",
+            Toast.LENGTH_SHORT
+        )
     }
 
     private fun facListing(isNext: Boolean)
     {
         if (u.getFaculties().isEmpty())
         {
-            val toast = Toast.makeText(
-                applicationContext,
-                "Добавьте студентов!",
-                Toast.LENGTH_SHORT
-            )
             toast.show()
         }
         else
         {
-            if (isNext && indexOfFaculty + 1 < u.getFaculties().size)
+            if (isNext)
             {
-                indexOfFaculty++
+                if (indexOfFaculty + 1 < u.getFaculties().size)
+                {
+                    indexOfFaculty++
+                }
             }
             else if (indexOfFaculty - 1 > -2)
             {
                 indexOfFaculty--
+            }
+            if (indexOfFaculty != -1)
+            {
+                for (i in 0 until u.getStudents().size)
+                {
+                    if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                    {
+                        indexOfStudents = i
+                        break
+                    }
+                }
             }
             refresh()
         }
@@ -68,47 +85,48 @@ class MainActivity : AppCompatActivity()
     {
         if (u.getStudents().isEmpty())
         {
-            val toast = Toast.makeText(
-                applicationContext,
-                "Добавьте студентов!",
-                Toast.LENGTH_SHORT
-            )
             toast.show()
         }
         else
         {
-            if (isNext && indexOfStudents + 1 < u.getStudents().size)
+            if (isNext)
             {
-                if (indexOfFaculty == -1)
+                if (indexOfStudents + 1 < u.getStudents().size)
                 {
-                    indexOfStudents++
-                }
-                else
-                {
-                    for (i in indexOfStudents + 1..u.getStudents().size)
+                    if (indexOfFaculty == -1)
                     {
-                        if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                        indexOfStudents++
+                    }
+                    else
+                    {
+                        for (i in indexOfStudents + 1 until u.getStudents().size)
                         {
-                            indexOfStudents = i
-                            break
+                            if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                            {
+                                indexOfStudents = i
+                                break
+                            }
                         }
                     }
                 }
             }
             else
             {
-                if (indexOfFaculty == -1 && indexOfStudents - 1 > -1)
+                if (indexOfStudents - 1 > -1)
                 {
-                    indexOfStudents--
-                }
-                else
-                {
-                    for (i in indexOfStudents - 1 downTo -1)
+                    if (indexOfFaculty == -1)
                     {
-                        if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                        indexOfStudents--
+                    }
+                    else
+                    {
+                        for (i in indexOfStudents - 1 downTo 0)
                         {
-                            indexOfStudents = i
-                            break
+                            if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                            {
+                                indexOfStudents = i
+                                break
+                            }
                         }
                     }
                 }
@@ -123,11 +141,6 @@ class MainActivity : AppCompatActivity()
         {
             if (action == 2 && u.getStudents().isEmpty())
             {
-                val toast = Toast.makeText(
-                    applicationContext,
-                    "Добавьте студентов!",
-                    Toast.LENGTH_SHORT
-                )
                 toast.show()
             }
             else
@@ -136,24 +149,60 @@ class MainActivity : AppCompatActivity()
                 intent.setClass(this, EditActivity::class.java)
                 intent.putExtra("ACTION", action)
                 intent.putExtra("INDEX", indexOfStudents)
+                if (action == 2)
+                {
+                    intent.putExtra("FIRST", u.getStudents()[indexOfStudents].firstName)
+                    intent.putExtra("SECOND", u.getStudents()[indexOfStudents].secondName)
+                    intent.putExtra("MIDDLE", u.getStudents()[indexOfStudents].middleName)
+                    intent.putExtra("BIRTH", u.getStudents()[indexOfStudents].birthDay)
+                    intent.putExtra("FACULTY", u.getStudents()[indexOfStudents].faculty)
+                }
                 startActivityForResult(intent, 1)
             }
         }
         if (action == 3)
         {
-
+            if (u.getStudents().isNotEmpty()) {
+                u.delStudent(indexOfStudents)
+                indexOfFaculty = -1
+                indexOfStudents = -1
+                refresh()
+            }
+            else
+            {
+                toast.show()
+            }
         }
     }
 
     private fun refresh()
     {
+        if (indexOfStudents == -1 && u.getStudents().isNotEmpty())
+        {
+            indexOfStudents = 0
+        }
+
+        if (indexOfFaculty != -1)
+        {
+            textViewCurF.text = u.getFaculties()[indexOfFaculty]
+        }
+        if (indexOfStudents != -1)
+        {
+            val tempString: String = (u.getStudents()[indexOfStudents].firstName + " "
+                    + u.getStudents()[indexOfStudents].secondName + " "
+                    + u.getStudents()[indexOfStudents].middleName + ", "
+                    + u.getStudents()[indexOfStudents].birthDay + ", "
+                    + u.getStudents()[indexOfStudents].faculty)
+            textViewCurS.text = tempString
+        }
+
         if (indexOfFaculty == -1)
         {
             textViewCurF.text = "Все факультеты"
         }
         if (indexOfStudents == -1)
         {
-            textViewCurS.text = "Добавьте студентов"
+            textViewCurS.text = "Нет студентов"
         }
     }
 

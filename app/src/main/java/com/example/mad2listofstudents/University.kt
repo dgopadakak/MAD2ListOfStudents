@@ -18,7 +18,7 @@ class University
     fun addStudent(student: Student)
     {
         listOfStudents.add(student)
-        var isNewFaculty: Boolean = true
+        var isNewFaculty = true
         for (faculty in listOfFaculties)
         {
             if (student.faculty == faculty)
@@ -30,11 +30,12 @@ class University
         {
             listOfFaculties.add(student.faculty)
         }
+        sortAlphabetically()
     }
 
     fun delStudent(index: Int)
     {
-        var numOfStudentsInFaculty: Int = 0
+        var numOfStudentsInFaculty = 0
         for (faculty in listOfFaculties)
         {
             if (faculty == listOfStudents[index].faculty)
@@ -53,5 +54,33 @@ class University
     {
         this.delStudent(index)
         this.addStudent(newStudentInfo)
+        sortAlphabetically()
+    }
+
+    private fun sortAlphabetically()
+    {
+        listOfFaculties.sort()
+
+        val tempListOfNames: ArrayList<String> = ArrayList()
+        for (i in listOfStudents)
+        {
+            tempListOfNames.add(i.firstName)
+        }
+        tempListOfNames.sort()
+        for (i in 0 until tempListOfNames.size)
+        {
+            for (j in 0 until listOfStudents.size)
+            {
+                if (listOfStudents[j].firstName == tempListOfNames[i])
+                {
+                    val tempStudent = Student(listOfStudents[i].firstName
+                        , listOfStudents[i].secondName, listOfStudents[i].middleName
+                        , listOfStudents[i].birthDay, listOfStudents[i].faculty)
+                    listOfStudents[i] = listOfStudents[j]
+                    listOfStudents[j] = tempStudent
+                    break
+                }
+            }
+        }
     }
 }
