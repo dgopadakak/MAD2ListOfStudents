@@ -1,10 +1,13 @@
 package com.example.mad2listofstudents
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import java.text.SimpleDateFormat
 
 class EditActivity : AppCompatActivity()
 {
@@ -46,16 +49,56 @@ class EditActivity : AppCompatActivity()
             && editTextMiddleName.text.toString() != "" && editTextBirthDay.text.toString() != ""
             && editTextFaculty.text.toString() != "")
         {
-            val intent = Intent(this@EditActivity, MainActivity::class.java)
-            intent.putExtra("ACTION", action)
-            intent.putExtra("INDEX", index)
-            intent.putExtra("FIRST", editTextFirstName.text.toString().trim())
-            intent.putExtra("SECOND", editTextSecondName.text.toString().trim())
-            intent.putExtra("MIDDLE", editTextMiddleName.text.toString().trim())
-            intent.putExtra("BIRTH", editTextBirthDay.text.toString().trim())
-            intent.putExtra("FACULTY", editTextFaculty.text.toString().trim())
-            setResult(RESULT_OK, intent)
-            finish()
+            if (isDateValid(editTextBirthDay.text.toString()))
+            {
+                val intent = Intent(this@EditActivity, MainActivity::class.java)
+                intent.putExtra("ACTION", action)
+                intent.putExtra("INDEX", index)
+                intent.putExtra("FIRST", editTextFirstName.text.toString().trim())
+                intent.putExtra("SECOND", editTextSecondName.text.toString().trim())
+                intent.putExtra("MIDDLE", editTextMiddleName.text.toString().trim())
+                intent.putExtra("BIRTH", editTextBirthDay.text.toString().trim())
+                intent.putExtra("FACULTY", editTextFaculty.text.toString().trim())
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+            else
+            {
+                val toast = Toast.makeText(
+                    applicationContext,
+                    "Введите корректную дату!",
+                    Toast.LENGTH_SHORT
+                )
+                toast.show()
+            }
+        }
+        else
+        {
+            val toast = Toast.makeText(
+                applicationContext,
+                "Заполните все поля!",
+                Toast.LENGTH_SHORT
+            )
+            toast.show()
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun isDateValid(date: String?): Boolean
+    {
+        val myFormat = SimpleDateFormat("dd.MM.yyyy")
+        myFormat.isLenient = false
+        return try
+        {
+            if (date != null)
+            {
+                myFormat.parse(date)
+            }
+            true
+        }
+        catch (e: Exception)
+        {
+            false
         }
     }
 }
