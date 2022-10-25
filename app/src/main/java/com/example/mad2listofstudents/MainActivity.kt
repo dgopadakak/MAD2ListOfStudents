@@ -162,7 +162,8 @@ class MainActivity : AppCompatActivity()
         }
         if (action == 3)
         {
-            if (u.getStudents().isNotEmpty()) {
+            if (u.getStudents().isNotEmpty())
+            {
                 u.delStudent(indexOfStudents)
                 indexOfFaculty = -1
                 indexOfStudents = -1

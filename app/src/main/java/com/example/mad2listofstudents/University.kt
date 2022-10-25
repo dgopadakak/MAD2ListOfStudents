@@ -54,7 +54,6 @@ class University
     {
         this.delStudent(index)
         this.addStudent(newStudentInfo)
-        sortAlphabetically()
     }
 
     private fun sortAlphabetically()
