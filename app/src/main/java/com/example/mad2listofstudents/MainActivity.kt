@@ -13,6 +13,12 @@ class MainActivity : AppCompatActivity()
     private lateinit var textViewCurF: TextView
     private lateinit var textViewCurS: TextView
 
+    private lateinit var buttonSNext: Button
+    private lateinit var buttonSPrev: Button
+
+    private lateinit var buttonFNext: Button
+    private lateinit var buttonFPrev: Button
+
     private val u = University()
 
     private var indexOfStudents: Int = -1
@@ -27,6 +33,12 @@ class MainActivity : AppCompatActivity()
 
         textViewCurF = findViewById(R.id.textViewCurF)
         textViewCurS = findViewById(R.id.textViewCurS)
+
+        buttonSNext = findViewById(R.id.buttonNextS)
+        buttonSPrev = findViewById(R.id.buttonPrevS)
+
+        buttonFNext = findViewById(R.id.buttonNextF)
+        buttonFPrev = findViewById(R.id.buttonPrevF)
 
         findViewById<Button>(R.id.buttonPrevF).setOnClickListener { facListing(false) }
         findViewById<Button>(R.id.buttonNextF).setOnClickListener { facListing(true) }
@@ -45,6 +57,8 @@ class MainActivity : AppCompatActivity()
             "Добавьте студентов!",
             Toast.LENGTH_SHORT
         )
+
+        refresh()
     }
 
     private fun facListing(isNext: Boolean)
@@ -205,6 +219,47 @@ class MainActivity : AppCompatActivity()
         {
             textViewCurS.text = "Нет студентов"
         }
+
+        if (indexOfFaculty == -1)
+        {
+            buttonFPrev.isEnabled = false
+            buttonFNext.isEnabled = u.getFaculties().size != 0
+            if (indexOfStudents == -1)
+            {
+                buttonSPrev.isEnabled = false
+                buttonSNext.isEnabled = false
+            }
+            else
+            {
+                buttonSPrev.isEnabled = indexOfStudents > 0
+                buttonSNext.isEnabled = indexOfStudents < u.getStudents().size - 1
+            }
+        }
+        else
+        {
+            buttonFPrev.isEnabled = true
+            var tempBoolean = false
+            for (i in indexOfStudents + 1 until u.getStudents().size)
+            {
+                if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                {
+                    tempBoolean = true
+                    break
+                }
+            }
+            buttonSNext.isEnabled = tempBoolean
+            tempBoolean = false
+            for (i in indexOfStudents - 1 downTo 0)
+            {
+                if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                {
+                    tempBoolean = true
+                    break
+                }
+            }
+            buttonSPrev.isEnabled = tempBoolean
+        }
+        buttonFNext.isEnabled = indexOfFaculty < u.getFaculties().size - 1
     }
 
     @Deprecated("Deprecated in Java")
