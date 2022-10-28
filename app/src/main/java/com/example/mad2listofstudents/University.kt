@@ -36,9 +36,9 @@ class University
     fun delStudent(index: Int)
     {
         var numOfStudentsInFaculty = 0
-        for (faculty in listOfFaculties)
+        for (i in 0 until listOfStudents.size)
         {
-            if (faculty == listOfStudents[index].faculty)
+            if (listOfStudents[i].faculty == listOfStudents[index].faculty)
             {
                 numOfStudentsInFaculty++
             }

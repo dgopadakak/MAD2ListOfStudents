@@ -178,9 +178,32 @@ class MainActivity : AppCompatActivity()
         {
             if (u.getStudents().isNotEmpty())
             {
-                u.delStudent(indexOfStudents)
-                indexOfFaculty = -1
-                indexOfStudents = -1
+                var numOfStudentsInFaculty = 0
+                for (i in 0 until u.getStudents().size)
+                {
+                    if (u.getStudents()[i].faculty == u.getStudents()[indexOfStudents].faculty)
+                    {
+                        numOfStudentsInFaculty++
+                    }
+                }
+                if (numOfStudentsInFaculty == 1 || indexOfFaculty == -1)
+                {
+                    u.delStudent(indexOfStudents)
+                    indexOfFaculty = -1
+                    indexOfStudents = -1
+                }
+                else
+                {
+                    u.delStudent(indexOfStudents)
+                    for (i in 0 until u.getStudents().size)
+                    {
+                        if (u.getStudents()[i].faculty == u.getFaculties()[indexOfFaculty])
+                        {
+                            indexOfStudents = i
+                            break
+                        }
+                    }
+                }
                 refresh()
             }
             else
